@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Swedish Local Market Finder</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+        <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        .small-loader {
+            width: 20px;
+            height: 20px;
+            border-width: 2px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        .modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            max-width: 90%;
+            width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.95);
+            transition: transform 0.3s;
+        }
+        .modal-overlay.visible .modal-content {
+            transform: scale(1);
+        }
+    </style>
+    </head>
+    <body class="bg-gray-50 text-gray-800">
+
+        <div class="container mx-auto p-4 md:p-8 max-w-4xl">
+            <header class="text-center mb-8">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Local Markets in West Sweden</h1>
+                <p class="text-gray-600 mt-2">Discover farm shops and local producers. Distances are calculated from
+                    Timmerslätt 21.</p>
+            </header>
+
+            <main id="main-content">
+                <div id="market-list" class="space-y-4">
+                    <!-- Market information will be dynamically inserted here -->
+                </div>
+            </main>
+
+            <footer class="text-center mt-12 text-gray-500 text-sm">
+                <p>Data sourced from Vastsverige.com and other local listings. Please check individual market websites
+                    for current opening hours.</p>
+            </footer>
+        </div>
+
+        <!-- Modal for Gemini Content -->
+        <div id="gemini-modal" class="modal-overlay">
+            <div class="modal-content">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 id="modal-title" class="text-2xl font-bold"></h2>
+                    <button id="modal-close" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
+                </div>
+                <div id="modal-body" class="space-y-4 whitespace-pre-wrap">
+                    <!-- Gemini content will be loaded here -->
+                </div>
+                <div id="modal-actions" class="mt-6 border-t pt-4">
+                    <!-- Action buttons will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <script>
+        // --- DATA: List of local markets ---
+        const markets = [
+            { id: 'hallsunga', name: 'Hållsunga Skafferi', website: 'https://hallsungaskafferi.se/english', address: 'Sundhammarsvägen 495, 442 71 Kärna', lat: 57.8485, lon: 11.8315 },
+            { id: 'godebergs', name: 'Gödebergs Gårdsbutik', website: 'https://www.godebergs.se/', address: 'Gödebergsvägen 11, 437 91 Lindome', lat: 57.5883, lon: 12.0932 },
+            { id: 'stora-tumlehed', name: 'Stora Tumlehed Gård', website: 'https://www.facebook.com/stora.tumlehed/', address: 'Tumlehedsvägen 180, 423 49 Torslanda', lat: 57.7005, lon: 11.7393 },
+            { id: 'lammet-bonden', name: 'Lammet & Bonden', website: 'http://www.lammetochbonden.se/', address: 'Hällingsbovägen 85, 438 91 Landvetter', lat: 57.6834, lon: 12.2618 },
+            { id: 'kahogs', name: 'Kåhögs Gård', website: 'https://www.kahogsgard.se/', address: 'Kåhögs Gårdsbutik, Byvägen 45, 433 76 Jonsered', lat: 57.74846, lon: 12.14653 },
+            { id: 'ryasand', name: 'Gårdsbutik Ryasand', website: 'https://tacka.nu/', address: 'Härskogsvägen 20, 438 91 Landvetter', lat: 57.6874, lon: 12.2745 },
+            { id: 'sivans', name: 'Sivans Osthandel', website: 'https://sivansost.se/', address: 'Stommen 11, 524 92 Levene', lat: 58.2930, lon: 12.9221 },
+            { id: 'bisonfarmen', name: 'Bisonfarmen i Gate', website: 'https://bisonfarm.se/', address: 'Gate 1, 544 94 Hjo', lat: 58.2431, lon: 14.1975 },
+            { id: 'bjornhyltans', name: 'Björnhyltans Trädgård', website: 'https://www.bjornhyltan.se/', address: 'Björnhyltan 1, 334 92 Ambjörnarp', lat: 57.3486, lon: 13.2428 },
+            { id: 'bitterna-akatorp', name: 'Stallboa på Bitterna Åkatorp', website: 'https://www.bitternaakatorp.se/', address: 'Bitterna Åkatorp 1, 534 91 Vedum', lat: 58.1764, lon: 13.0805 },
+            { id: 'brohage-kott', name: 'Brohage Kött', website: 'https://www.brohage.se/', address: 'Brohage 1, 510 23 Öxabäck', lat: 57.3933, lon: 12.8319 },
+            { id: 'dalslands-vilt', name: 'Dalslands Vilt', website: 'https://www.dalslandsvilt.se/', address: 'Dalslands Aktiviteter, Steneby, 464 96 Dals Långed', lat: 58.9329, lon: 12.2742 },
+            { id: 'alekarrs', name: 'Alekärrs Ekologiska Gård', website: 'https://www.alekarr.se/', address: 'Alekärr 1, 532 93 Varnhem', lat: 58.3758, lon: 13.6264 },
+            { id: 'almnas-bruk', name: 'Almnäs Bruk', website: 'https://www.almnas.se/', address: 'Almnäs, 544 94 Hjo', lat: 58.2716, lon: 14.2758 },
+            { id: 'gesebol', name: 'Gesebol', website: 'https://www.gesebol.se/', address: 'Gesebol 1, 517 95 Olsfors', lat: 57.6974, lon: 12.7915 },
+            { id: 'dalslands-struts', name: 'Dalslands Struts', website: 'https://dalslandsstruts.se/', address: 'Glumserud, 662 91 Åmål', lat: 59.0531, lon: 12.7035 },
+            { id: 'falbygdens-osteria', name: 'Falbygdens Osteria', website: 'https://www.falbygdensosteria.se/', address: 'Götevevägen 1, 521 41 Falköping', lat: 58.1633, lon: 13.5539 },
+            { id: 'gasene-mejeri', name: 'Gäsene Mejeri Ostbutik', website: 'https://www.gasenemejeri.se/', address: 'Alingsåsvägen 34, 524 41 Ljung', lat: 58.0709, lon: 12.8797 },
+            { id: 'sammels-lantgard', name: 'Sammels Lantgård', website: 'https://sammelslantgard.se/', address: 'Grönnås 110, 438 93 Landvetter', lat: 57.6698, lon: 12.2591 },
+            { id: 'stora-holms-sateri', name: 'Stora Holms Säteri', website: 'https://www.storaholmssateri.se/', address: 'Stora Holms Säteri 1, 417 46 Göteborg', lat: 57.7533, lon: 11.9103 },
+            { id: 'fristorps-gard', name: 'Fristorps Gård', website: 'https://www.fristorpsgard.se/', address: 'Fristorp 210, 461 93 Västra Tunhem', lat: 58.2439, lon: 12.4042 },
+            { id: 'limmareds-sateri', name: 'Limmareds Säteri', website: 'https://www.limmaredssateri.se/', address: 'Limmareds Säteri, 514 93 Limmared', lat: 57.5815, lon: 13.3444 },
+            { id: 'moriks-fargard', name: 'Moriks Fårgård', website: 'https://www.moriksfargard.se/', address: 'Morik 23, 471 93 Kållekärr', lat: 57.9897, lon: 11.6425 },
+            { id: 'ulkerods-gard', name: 'Ulkeröds Gård', website: 'https://ulkerodsgard.se/', address: 'Ulkeröd 1, 455 96 Hedekas', lat: 58.5919, lon: 11.6008 },
+            { id: 'johanssons-lamm', name: 'Johanssons Lamm & Ull', website: 'https://www.johanssonslamm.se/', address: 'Önum, Solbacken 1, 534 91 Vara', lat: 58.2618, lon: 12.9981 },
+            { id: 'odsmals-ortagard', name: 'Ödsmåls Örtagård', website: 'https://www.odsmals-ortagard.se/', address: 'Ödsmål 21, 444 94 Ucklum', lat: 58.0381, lon: 11.9750 }
+        ];
+
+        // --- DOM Elements ---
+        const marketListEl = document.getElementById('market-list');
+        const modalEl = document.getElementById('gemini-modal');
+        const modalTitleEl = document.getElementById('modal-title');
+        const modalBodyEl = document.getElementById('modal-body');
+        const modalActionsEl = document.getElementById('modal-actions');
+        const modalCloseBtn = document.getElementById('modal-close');
+
+        // --- Gemini API Call ---
+        async function callGemini(prompt) {
+            const apiKey = ""; // API key is handled by the environment.
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+            const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }] };
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error("API Error Response:", errorText);
+                throw new Error(`API call failed with status: ${response.status}. This may be due to a permission issue (403).`);
+            }
+
+            const result = await response.json();
+            if (result.candidates?.[0]?.content?.parts?.[0]?.text) {
+                return result.candidates[0].content.parts[0].text;
+            } else {
+                console.error("Unexpected API response structure:", result);
+                throw new Error("Could not get a valid response from the AI model.");
+            }
+        }
+
+        // --- Text-to-Speech Functions ---
+        function stopSpeech() {
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+            }
+        }
+
+        function speakText(text) {
+            if (!('speechSynthesis' in window)) {
+                alert("Sorry, your browser doesn't support text-to-speech.");
+                return;
+            }
+            stopSpeech(); // Stop any previous speech
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US'; // Using English voice for consistency
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // --- UI Functions ---
+        function showModal() { modalEl.classList.add('visible'); }
+        function hideModal() {
+            stopSpeech(); // Stop speech when modal is closed
+            modalEl.classList.remove('visible');
+        }
+
+        function setModalLoading(title = 'Thinking...') {
+            modalTitleEl.textContent = title;
+            modalBodyEl.innerHTML = '<div class="flex justify-center"><div class="loader"></div></div>';
+            modalActionsEl.innerHTML = '';
+        }
+
+        function showModalError(title, message) {
+            showModal();
+            modalTitleEl.textContent = title;
+            modalBodyEl.textContent = message;
+            modalActionsEl.innerHTML = '';
+        }
+
+        async function getMarketInfoText(market) {
+            if (market.infoText) {
+                return market.infoText;
+            }
+            const prompt = `Tell me about the farm shop '${market.name}' in Sweden. What kind of products do they typically sell? What is the atmosphere like? Keep it to 2-3 short paragraphs and make it sound inviting for a visitor.`;
+            const infoText = await callGemini(prompt);
+            market.infoText = infoText; // Cache the result
+            return infoText;
+        }
+
+        async function handleGetInfoClick(marketId) {
+            const market = markets.find(m => m.id === marketId);
+            if (!market) return;
+            showModal();
+            setModalLoading(`About ${market.name}`);
+            try {
+                const infoText = await getMarketInfoText(market);
+                modalBodyEl.textContent = infoText;
+                modalActionsEl.innerHTML = `<button onclick="handlePlanTripClick('${market.id}')" class="w-full bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700 transition-colors">✨ Plan a Day Trip Here</button>`;
+            } catch (error) {
+                console.error(error);
+                modalBodyEl.textContent = `Could not load information for this market. ${error.message}`;
+            }
+        }
+
+        async function handlePlayVoiceInfoClick(buttonEl, marketId) {
+            if (window.speechSynthesis.speaking) {
+                stopSpeech();
+                return;
+            }
+            const market = markets.find(m => m.id === marketId);
+            if (!market) return;
+
+            const originalContent = buttonEl.innerHTML;
+            buttonEl.innerHTML = '<div class="loader small-loader"></div>';
+            buttonEl.disabled = true;
+
+            try {
+                const infoText = await getMarketInfoText(market);
+                speakText(infoText);
+            } catch (error) {
+                console.error("Failed to play voice info:", error);
+                showModalError('Voice Info Error', `Could not load voice information. ${error.message}`);
+            } finally {
+                buttonEl.innerHTML = originalContent;
+                buttonEl.disabled = false;
+            }
+        }
+
+        async function handlePlanTripClick(marketId) {
+            const market = markets.find(m => m.id === marketId);
+            if (!market) return;
+            setModalLoading(`Day Trip to ${market.name}`);
+            try {
+                const prompt = `I'm planning a visit to '${market.name}' at '${market.address}', Sweden. Create a fun, half-day trip itinerary. Suggest one other interesting and nearby point of interest (like a nature reserve, historical site, or another shop) and a cozy place for a traditional Swedish 'fika'. Format the response with clear headings for each part of the trip (e.g., Morning, Lunch, Afternoon).`;
+                const tripPlanText = await callGemini(prompt);
+                modalBodyEl.textContent = tripPlanText;
+                modalActionsEl.innerHTML = '';
+            } catch (error) {
+                 console.error(error);
+                modalBodyEl.textContent = `Could not create a trip plan. ${error.message}`;
+            }
+        }
+
+        function renderMarketList(marketsToRender) {
+            const statusEl = document.getElementById('status');
+            if(statusEl) statusEl.style.display = 'none';
+
+            marketListEl.innerHTML = '';
+            marketsToRender.forEach(market => {
+                const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(market.address)}`;
+                const marketCard = document.createElement('div');
+                marketCard.className = 'bg-white p-4 rounded-lg shadow-sm border border-gray-200';
+
+                const distanceHTML = market.distance !== undefined ? `
+                    <div class="bg-gray-100 text-gray-800 text-sm font-semibold px-3 py-1 rounded-full whitespace-nowrap mb-2">
+                        ${market.distance.toFixed(1)} km away
+                    </div>` : '';
+
+                marketCard.innerHTML = `
+                    <div class="flex flex-col sm:flex-row justify-between items-start">
+                        <div class="flex-grow mb-4 sm:mb-0">
+                            <a href="${market.website}" target="_blank" rel="noopener noreferrer" class="text-lg font-bold text-blue-600 hover:underline">${market.name}</a>
+                            <p class="text-gray-600 text-sm mt-1">
+                                <a href="${googleMapsLink}" target="_blank" rel="noopener noreferrer" class="hover:underline">${market.address}</a>
+                            </p>
+                        </div>
+                        <div class="text-right flex-shrink-0">
+                            ${distanceHTML}
+                        </div>
+                    </div>
+                    <div class="mt-4 border-t pt-3 flex items-center space-x-2">
+                         <button onclick="handleGetInfoClick('${market.id}')" class="flex-grow bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors">
+                            Get Market Info
+                        </button>
+                        <button onclick="handlePlayVoiceInfoClick(this, '${market.id}')" class="p-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors" aria-label="Play voice info">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-700"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                        </button>
+                        <a href="${googleMapsLink}" target="_blank" rel="noopener noreferrer" class="p-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors" aria-label="Show on map">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-gray-700"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        </a>
+                    </div>
+                `;
+                marketListEl.appendChild(marketCard);
+            });
+        }
+
+        // --- Distance Calculation ---
+        function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+            const R = 6371; // Radius of the earth in km
+            const dLat = deg2rad(lat2 - lat1);
+            const dLon = deg2rad(lon2 - lon1);
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c;
+        }
+
+        function deg2rad(deg) { return deg * (Math.PI / 180); }
+
+        function initializeMarketList() {
+            // Fixed location: Timmerslätt 21
+            const fixedLat = 57.7162;
+            const fixedLon = 12.1158;
+
+            markets.forEach(market => {
+                market.distance = getDistanceFromLatLonInKm(fixedLat, fixedLon, market.lat, market.lon);
+            });
+            markets.sort((a, b) => a.distance - b.distance);
+            renderMarketList(markets);
+        }
+
+        // --- Initial Load & Event Listeners ---
+        window.onload = initializeMarketList;
+        modalCloseBtn.addEventListener('click', hideModal);
+        modalEl.addEventListener('click', (e) => {
+            if (e.target === modalEl) {
+                hideModal();
+            }
+        });
+
+    </script>
+    </body>
+</html>
