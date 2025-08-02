@@ -1,0 +1,132 @@
+# General Programming
+# -------------------
+
+# Compiled object files, executables, and libraries
+*.o
+*.a
+*.so
+*.lo
+*.la
+*.obj
+*.exe
+*.dll
+*.lib
+*.ncb
+*.suo
+*.pdb
+*.user
+*.ilk
+*.aps
+*.bsc
+*.sbr
+*.res
+*.pch
+*.ipch
+
+# Log files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Project-specific IDE files and directories
+.vscode/        # VS Code specific settings
+.idea/          # IntelliJ IDEA specific settings
+*.iml           # IntelliJ IDEA module files
+*.iws           # IntelliJ IDEA workspace files
+*.ipr           # IntelliJ IDEA project files
+*.sublime-project
+*.sublime-workspace
+*.KomodoProject
+*.komodoproject
+nbproject/      # NetBeans project files
+*.esproj        # Esri project files
+
+# Dependency directories
+node_modules/
+bower_components/
+vendor/
+build/          # Common build output directory
+dist/           # Common distribution output directory
+
+# Environment variables
+.env
+.env.*
+.venv/          # Python virtual environments
+
+# Test results
+/coverage/
+
+# Backup files
+*~
+*.bak
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+temp/
+tmp/
+.tmp*
+
+# Custom ignored files (add your specific files here)
+# my_secret_api_keys.txt
+
+
+# HTML/CSS/JavaScript Design
+# --------------------------
+
+# Minified files
+*.min.css
+*.min.js
+
+# Sass/Less compiled CSS (if you don't commit it)
+*.css
+!*.min.css # If you *do* commit minified CSS, this line ensures it's not ignored by the above rule
+
+# Image optimization artifacts
+*.psd.bak
+*.xcf.bak
+
+# Fontello/IcoMoon archives
+*.zip
+
+# Other temporary or generated files specific to design tools
+# For example, if you use a tool that generates a specific temp file:
+# design_temp_file.txt
+
+# Editor specific
+.idea/
+.DS_Store
+
+# Common static site generator output (e.g., Jekyll, Hugo, Eleventy)
+_site/
+public/
+output/
+.cache/
+
+# Node-related files (if frontend build tools are used)
+package-lock.json
+yarn.lock
+npm-debug.log
+.parcel-cache/ # Parcel build tool cache
+.next/          # Next.js build output
+.nuxt/          # Nuxt.js build output
+out/            # Some SSG or build tool output
+
+# FTP/Deployment related files
+.ftppass
+.ftpignore
+.htaccess       # Often committed, but sometimes locally modified and shouldn't be.
+web.config
+sftp-config.json

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Camping Trip Itinerary</title>
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .stop {
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+            margin-bottom: 20px;
+        }
+        .map-container {
+            width: 100%;
+            height: 400px;
+            border: 1px solid #ddd;
+            margin-top: 10px;
+        }
+        .map-link {
+            display: inline-block;
+            margin-top: 5px;
+        }
+    </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Camping Trip Itinerary</h1>
+            <p>This website provides information on camping sites and scenic stops for your journey.</p>
+
+            <div class="section">
+                <h2>Trip Overview</h2>
+                <p>Your road trip is now a **6-day adventure** starting and ending in Gothenburg, exploring the
+                    beautiful southern coast of Norway, including the vibrant city of Bergen.</p>
+                <ul>
+                    <li><strong>Total Distance:</strong> Approximately 1,755 km</li>
+                    <li><strong>Estimated Driving Time:</strong> Approximately 1 day, 0 hours, 40 minutes</li>
+                </ul>
+                <p>You can view the complete route on Google Maps by clicking the link below:</p>
+                <a class="map-link"
+                    href="https://www.google.com/maps/dir/Gothenburg,+Sweden/Kristiansand,+Norway/Pulpit+Rock/Stavanger,+Norway/Bergen,+Norway/Gothenburg,+Sweden/data=!4m38!4m37!1m5!1m1!19sChIJPwdslmeOT0YRQHwOKXiQAQQ!2m2!1d11.97456!2d57.70887!1m5!1m1!19sChIJW3pg1VgCOEYRpFgcyG8NDN8!2m2!1d8.0182064!2d58.1599119!1m5!1m1!19sChIJCetU9hvVO0YRi7ejv73mg0o!2m2!1d6.1904395999999995!2d58.98641!1m5!1m1!19sChIJlfcp3Uk1OkYRWZIKuCHreq0!2m2!1d5.7331074!2d58.9699756!1m5!1m1!19sChIJd312ZkkNOUYRCAretD6gQp4!2m2!1d5.3220544!2d60.3912628!1m5!1m1!19sChIJPwdslmeOT0YRQHwOKXiQAQQ!2m2!1d11.97456!2d57.70887!3e0"
+                    target="_blank">Full Trip Route on Google Maps (Opens in new tab)</a>
+
+                <h3>Day-by-Day Stops Overview:</h3>
+                <ul>
+                    <li><strong>Day 1: Gothenburg to Kristiansand</strong>
+                        <ul>
+                            <li>Drive from Gothenburg towards Norway's southern coast.</li>
+                            <li>Consider quick stops in Fredrikstad (old town) and Risør (white wooden town).</li>
+                            <li>Overnight in Kristiansand.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Day 2: Kristiansand to Stavanger</strong>
+                        <ul>
+                            <li>Scenic drive along the coast from Kristiansand westwards.</li>
+                            <li>Key stops include Lindesnes Lighthouse (southernmost point) and the historic village of
+                                Sogndalstrand.</li>
+                            <li>Overnight in Stavanger.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Day 3: Preikestolen (Pulpit Rock) Hike</strong>
+                        <ul>
+                            <li>Dedicated day for the moderate hike to Preikestolen, offering breathtaking views of the
+                                Lysefjord.</li>
+                            <li>Overnight again in Stavanger.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Day 4: Exploring Stavanger and Surroundings</strong>
+                        <ul>
+                            <li>Discover Stavanger's charm including Gamle Stavanger (Old Town), Stavanger Cathedral,
+                                and the Norwegian Petroleum Museum.</li>
+                            <li>Optionally take a Lysefjord Cruise to see Preikestolen from below.</li>
+                            <li>Overnight in Stavanger.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Day 5: Stavanger to Bergen</strong>
+                        <ul>
+                            <li>Scenic drive north from Stavanger towards Bergen, often involving a ferry crossing
+                                (e.g., Mortavika-Arsvågen or Halhjem-Sandvikvåg).</li>
+                            <li>Enjoy the changing landscapes from fjords to mountains.</li>
+                            <li>Overnight in Bergen.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Day 6: Bergen to Gothenburg</strong>
+                        <ul>
+                            <li>Start your return journey from Bergen back to Gothenburg. This is a long driving
+                                day.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>Camping Sites</h2>
+
+                <div class="stop">
+                    <h3>Kristiansand Area</h3>
+                    <ul>
+                        <li>
+                            <strong>Roligheden Camping:</strong> A centrally located site in Kristiansand. <a
+                                href="https://www.dyreparken.no/overnatting/roligheden-camping/"
+                                target="_blank">Website</a>
+                        </li>
+                        <li>
+                            <strong>Kristiansand Feriesenter:</strong> A five-star holiday center near the sea. <a
+                                href="https://krsferiesenter.no/en/camping-og-bobil/" target="_blank">Website</a>
+                        </li>
+                        <li>
+                            <strong>Hamre Familiecamping:</strong> Popular family-friendly camping site. <a
+                                href="https://campingplassen.no/" target="_blank">Website</a>
+                        </li>
+                        <li>
+                            <strong>Kilefjorden Camping:</strong> All-year camping site with its own beach. <a
+                                href="https://www.kilefjorden.com/" target="_blank">Website</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="stop">
+                    <h3>Preikestolen and Stavanger Area</h3>
+                    <ul>
+                        <li>
+                            <strong>Preikestolen Camping:</strong> Perfect base for the hike to Pulpit Rock. <a
+                                href="https://www.preikestolencamping.com/" target="_blank">Website</a>
+                        </li>
+                        <li>
+                            <strong>Mosvangen Camping Stavanger:</strong> Located in a rural setting close to the city.
+                            <a href="https://www.stavangercamping.no/eng/" target="_blank">Website</a>
+                        </li>
+                        <li>
+                            <strong>Ølberg Camping:</strong> A highly-rated site near Stavanger. <a
+                                href="https://www.pincamp.com/norway/rogaland/stavanger" target="_blank">Website</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="stop">
+                    <h3>Bergen Area</h3>
+                    <ul>
+                        <li>
+                            <strong>Bergen Camping:</strong> A highly-rated camping site in Bergen. <a
+                                href="https://campingen.no/bergen" target="_blank">Website</a>
+                        </li>
+                        <li>
+                            <strong>Bratland Camping:</strong> Located in Haukeland, a short distance from Bergen. <a
+                                href="http://www.bratlandcamping.no/" target="_blank">Website</a>
+                        </li>
+                        <li>
+                            <strong>Oddland Camping:</strong> Situated in Norheimsund, offering beautiful fjord views.
+                            <a href="http://www.oddlandcamping.no/" target="_blank">Website</a>
+                        </li>
+                        <li>
+                            <strong>Tvinde Camping:</strong> Near Skulestadmo, known for its proximity to Tvinde
+                            Waterfall. <a href="http://www.tvinde.no/" target="_blank">Website</a>
+                        </li>
+                        <li>
+                            <strong>Kinsarvik Camping AS:</strong> Located by the Hardangerfjord, a scenic drive from
+                            Bergen. <a href="http://www.kinsarvikcamping.no/" target="_blank">Website</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Beautiful Scenic Stops</h2>
+
+                <div class="stop">
+                    <h3>Near Kristiansand</h3>
+
+                    <p><strong>Odderøya Fortress:</strong> A historic island fortress with hiking paths and great
+                        views.</p>
+                    <a class="map-link" href="https://maps.google.com/maps?q=Odderøya+Fortress" target="_blank">View on
+                        Google Maps</a>
+                    <div class="map-container">
+                        <iframe width="100%" height="100%" frameborder="0" style="border:0"
+                            src="https://maps.google.com/maps?q=Odderøya+Fortress&output=embed"
+                            allowfullscreen></iframe>
+                    </div>
+
+                    <p><strong>Ravnedalen Park:</strong> A beautiful park with a café and hiking opportunities.</p>
+                    <a class="map-link" href="https://maps.google.com/maps?q=Ravnedalen+Park" target="_blank">View on
+                        Google Maps</a>
+                    <div class="map-container">
+                        <iframe width="100%" height="100%" frameborder="0" style="border:0"
+                            src="https://maps.google.com/maps?q=Ravnedalen+Park&output=embed" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <div class="stop">
+                    <h3>Near Preikestolen</h3>
+
+                    <p><strong>Preikestolen (Pulpit Rock):</strong> The iconic cliff with stunning views of the
+                        Lysefjord. The hike is moderately difficult.</p>
+                    <a class="map-link" href="https://maps.google.com/maps?q=Preikestolen" target="_blank">View on
+                        Google Maps</a>
+                    <div class="map-container">
+                        <iframe width="100%" height="100%" frameborder="0" style="border:0"
+                            src="https://maps.google.com/maps?q=Preikestolen&output=embed" allowfullscreen></iframe>
+                    </div>
+
+                    <p><strong>Lysefjord Cruises:</strong> See Preikestolen from below and explore the fjord's natural
+                        wonders by boat.</p>
+                    <a class="map-link" href="https://maps.google.com/maps?q=Lysefjord" target="_blank">View on Google
+                        Maps</a>
+                    <div class="map-container">
+                        <iframe width="100%" height="100%" frameborder="0" style="border:0"
+                            src="https://maps.google.com/maps?q=Lysefjord&output=embed" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <div class="stop">
+                    <h3>Near Stavanger</h3>
+
+                    <p><strong>Gamle Stavanger (Old Town):</strong> A charming historic district with well-preserved
+                        white wooden houses.</p>
+                    <a class="map-link" href="https://maps.google.com/maps?q=Gamle+Stavanger" target="_blank">View on
+                        Google Maps</a>
+                    <div class="map-container">
+                        <iframe width="100%" height="100%" frameborder="0" style="border:0"
+                            src="https://maps.google.com/maps?q=Gamle+Stavanger&output=embed" allowfullscreen></iframe>
+                    </div>
+
+                    <p><strong>Sverd i fjell (Swords in Rock):</strong> A monument commemorating the unification of
+                        Norway.</p>
+                    <a class="map-link" href="https://maps.google.com/maps?q=Sverd+i+fjell" target="_blank">View on
+                        Google Maps</a>
+                    <div class="map-container">
+                        <iframe width="100%" height="100%" frameborder="0" style="border:0"
+                            src="https://maps.google.com/maps?q=Sverd+i+fjell&output=embed" allowfullscreen></iframe>
+                    </div>
+
+                    <p><strong>Fargegaten (The Colourful Street):</strong> A vibrant street with colorful houses, cafes,
+                        and bars.</p>
+                    <a class="map-link" href="https://maps.google.com/maps?q=Fargegaten" target="_blank">View on Google
+                        Maps</a>
+                    <div class="map-container">
+                        <iframe width="100%" height="100%" frameborder="0" style="border:0"
+                            src="https://maps.google.com/maps?q=Fargegaten&output=embed" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <div class="stop">
+                    <h3>Near Bergen</h3>
+
+                    <p><strong>Mount Fløyen (via Fløibanen Funicular):</strong> Offers panoramic views of Bergen, the
+                        fjords, and the surrounding mountains. Easy to access from the city center.</p>
+                    <a class="map-link"
+                        href="https://www.google.com/maps/place/Fløyen/@60.399516,5.334052,15z/data=!4m6!3m5!1s0x46390dcb163e527f:0x22131974ef6f525!8m2!3d60.399516!4d5.334052!16s%2Fg%2F1225r308?hl=en"
+                        target="_blank">View on Google Maps</a>
+                    <div class="map-container">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1964.7397746147424!2d5.331471377316345!3d60.39951607590212!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46390dcb163e527f%3A0x22131974ef6f525!2sFl%C3%B8yen!5e0!3m2!1sen!2sno!4v1701389024097!5m2!1sen!2sno"
+                            width="100%" height="100%" style="border:0;" allowfullscreen loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+
+                    <p><strong>Mount Ulriken (via Ulriken Cable Car):</strong> The highest of Bergen's seven mountains,
+                        offering even more expansive views. You can hike or take the cable car.</p>
+                    <a class="map-link"
+                        href="https://www.google.com/maps/place/Ulriken+643/@60.366629,5.367018,15z/data=!4m6!3m5!1s0x46390db550604b11:0x391295b77c196f7e!8m2!3d60.366629!4d5.367018!16s%2Fg%2F120j6s80?hl=en"
+                        target="_blank">View on Google Maps</a>
+                    <div class="map-container">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1966.7360215715764!2d5.364443077309998!3d60.36662907998642!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46390db550604b11%3A0x391295b77c196f7e!2sUlriken%20643!5e0!3m2!1sen!2sno!4v1701389146908!5m2!1sen!2sno"
+                            width="100%" height="100%" style="border:0;" allowfullscreen loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+
+                    <p><strong>Hardangerfjord (Scenic Route 7):</strong> One of Norway's most beautiful fjords, known
+                        for its fruit orchards, waterfalls (like Steinsdalsfossen), and the Hardanger Bridge. Accessible
+                        within a 2-hour drive from Bergen.</p>
+                    <a class="map-link"
+                        href="https://www.google.com/maps/place/Hardangerfjord/@60.428574,6.237072,9z/data=!3m1!4b1!4m6!3m5!1s0x463e264b35e2363b:0x5e372e9e99e43a9e!8m2!3d60.43003!4d6.49503!16zL20vMDMzbXl3?hl=en"
+                        target="_blank">View on Google Maps</a>
+                    <div class="map-container">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d355038.9950798126!2d6.237072499999999!3d60.428574!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x463e264b35e2363b%3A0x5e372e9e99e43a9e!2sHardangerfjord!5e0!3m2!1sen!2sno!4v1701389278918!5m2!1sen!2sno"
+                            width="100%" height="100%" style="border:0;" allowfullscreen loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
