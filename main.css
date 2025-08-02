@@ -16,6 +16,7 @@ body {
     background: var(--bg-color);
     color: var(--text);
     font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    font-size: 1.25em;
     margin: 0;
     padding: 0;
     min-height: 100vh;
@@ -131,8 +132,4 @@ hr {
     border: none;
     border-top: 1px solid var(--border);
     margin: 2rem 0;
-}
-
-html {
-    font-size: 2em;
 }
